@@ -7,8 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.Test;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.everyItem;
 
 @Slf4j
@@ -19,7 +20,10 @@ public class DemoTest extends UiTest {
         final String request = "icefox";
         StartPage startPage = new StartPage();
         SearchResultsPage resultsPage = startPage.search(request);
-        List<String> results = resultsPage.getSearchResultHeaders();
-        assertThat("Search results are irrelevant:", results, everyItem(equalTo(request)));
+        log.info("Check that every item in search results contains search request [{}]", request);
+        resultsPage.printSearchResultHeaders();
+        List<String> results = resultsPage.getSearchResultHeaders()
+                .stream().map(String::toLowerCase).collect(Collectors.toList());
+        assertThat("Search results are irrelevant:", results, everyItem(containsString(request)));
     }
 }
