@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Test suite for demo">
+    <test name="Google results">
+        <classes>
+            <class name="com.icefoxman.atomic.DemoTest"/>
+        </classes>
+    </test>
+</suite>
