@@ -142,23 +142,23 @@ public abstract class Browser {
         String msg = "Start local {} with {}";
         switch (name()) {
             case CHROME:
-                ChromeOptions chromeOptions = (ChromeOptions) Options.chrome();
+                ChromeOptions chromeOptions = Options.chrome();
                 log.debug(msg, name(), chromeOptions);
                 return new ChromeDriver(chromeOptions);
             case FIREFOX:
-                FirefoxOptions firefoxOptions = (FirefoxOptions) Options.firefox();
+                FirefoxOptions firefoxOptions = Options.firefox();
                 log.debug(msg, name(), firefoxOptions);
                 return new FirefoxDriver(firefoxOptions);
             case EDGE:
-                EdgeOptions edgeOptions = (EdgeOptions) Options.edge();
+                EdgeOptions edgeOptions = Options.edge();
                 log.debug(msg, name(), edgeOptions);
                 return new EdgeDriver(edgeOptions);
             case IE:
-                InternetExplorerOptions ieOptions = (InternetExplorerOptions) Options.edge();
+                InternetExplorerOptions ieOptions = Options.ie();
                 log.debug(msg, name(), ieOptions);
                 return new InternetExplorerDriver(ieOptions);
             case SAFARI:
-                SafariOptions safariOptions = (SafariOptions) Options.safari();
+                SafariOptions safariOptions = Options.safari();
                 log.debug(msg, name(), safariOptions);
                 return new SafariDriver(safariOptions);
             default:

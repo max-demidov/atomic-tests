@@ -28,7 +28,7 @@ interface Options {
         return caps;
     }
 
-    static MutableCapabilities chrome() {
+    static ChromeOptions chrome() {
         ChromeOptions options = new ChromeOptions().addArguments(
                 "silent",
                 "test-type",
@@ -36,36 +36,42 @@ interface Options {
                 "disable-infobars",
                 "disable-plugins",
                 "disable-print-preview");
-        return common().merge(options);
+        return options.merge(common());
     }
 
-    static MutableCapabilities firefox() {
+    static FirefoxOptions firefox() {
         FirefoxOptions options = new FirefoxOptions();
         options.setCapability("marionette", true);
         options.setPageLoadStrategy(EAGER);
-        return common().merge(options);
+        return options.merge(common());
     }
 
-    static MutableCapabilities edge() {
-        return ie().merge(new EdgeOptions());
+    static EdgeOptions edge() {
+        EdgeOptions options = new EdgeOptions();
+        options.setCapability(IE_ENSURE_CLEAN_SESSION, true);
+        options.setCapability(IGNORE_ZOOM_SETTING, true);
+        options.setCapability(INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+        options.setCapability(REQUIRE_WINDOW_FOCUS, true);
+        options.setCapability(ENABLE_PERSISTENT_HOVERING, false);
+        return options.merge(common());
     }
 
-    static MutableCapabilities ie() {
+    static InternetExplorerOptions ie() {
         InternetExplorerOptions options = new InternetExplorerOptions();
         options.setCapability(IE_ENSURE_CLEAN_SESSION, true);
         options.setCapability(IGNORE_ZOOM_SETTING, true);
         options.setCapability(INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
         options.setCapability(REQUIRE_WINDOW_FOCUS, true);
         options.setCapability(ENABLE_PERSISTENT_HOVERING, false);
-        return common().merge(options);
+        return options.merge(common());
     }
 
-    static MutableCapabilities safari() {
+    static SafariOptions safari() {
         SafariOptions options = new SafariOptions();
         options.setCapability("seleniumVersion", "3.14.0_safarilegacy");
         options.setCapability("platform", "macOS 10.13");
         options.setCapability("screenResolution", "1920x1440");
-        return common().merge(options);
+        return options.merge(common());
     }
 
     static MutableCapabilities common() {
