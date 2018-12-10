@@ -6,9 +6,9 @@
 
     <groupId>com.icefoxman</groupId>
     <artifactId>atomic-tests</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <name>🦊</name>
-    <description>🦊</description>
+    <version>1.0</version>
+    <name>Atomic 🦊 Tests</name>
+    <description>Base Java test framework for fast, scalable and atomic tests</description>
     <url>https://github.com/max-demidov/atomic-tests.git</url>
 
     <properties>
