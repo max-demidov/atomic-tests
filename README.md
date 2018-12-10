@@ -36,30 +36,32 @@ mvn test -Dwebdriver.chrome.driver=C:\webdriver\chromedriver.exe -Dsurefire.suit
 
 ### Arguments
 
+**Note.** As usual for JVM options each parameter must follow ` -D`.
+
 | Parameter | Default | Description |
 |:---|---:|:---|
-|`-Dsurefire.suiteXmlFiles` |   |Path for TestNG test suite XML file to execute.|
-|`-Dwebdriver.chrome.driver`|   |Path for your local chromedriver.exe. Required to run tests in your local Chrome.|
-|`-Dwebdriver.gecko.driver` |   |Path for your local geckodriver.exe. Required to run tests in your local Firefox.|
-|`-Dwebdriver.edge.driver`  |   |Path for your local MicrosoftWebDriver.exe. Required to run tests in your local Edge.|
-|`-Dwebdriver.ie.driver`    |   |Path for your local IEDriverServer.exe. Required to run tests in your local IE.|
-|`-Dbrowser.name`   |`CHROME`   |Browser to run tests against. Supported ones: CHROME, FIREFOX, EDGE, IE, SAFARI.|
-|`-Dbrowser.size`   |`1920x1080`|Size of browser window.|
-|`-DpageLoadTimeout`|`60`   |Seconds to wait until any page to be loaded. Exceeding throws TimeoutException.|
-|`-Denv`|`GOOGLE`   |Test environment to run tests in. There might be for example DEV, STAGE, PROD, etc environments in your project. For now there is only GOOGLE one for demo.|
-|`-DsauceCreds` |   |To run tests in Saucelabs you will need to specify `<username>:<access_key>`.|
-|`-DsauceTunnel`|   |To grant Saucelabs access to web resources in VPN you will need to specify `<tunnel_id>`.|
-|`-Drp.endpoint`|   |To use ReportPortal you need to specify URL of ReportPortal web service, where requests should be send to.|
-|`-Drp.uuid`    |   |Your ReportPortal UUID|
-|`-Drp.enable`  |   |Boolean. Enable/Disable logging to Report Portal.|
-|`-Drp.project` |   |Project name in ReportPortal to identify scope.|
-|`-Drp.keystore.resource`   |   |Path for your `reportportal-client-v2.jks`.|
-|`-Drp.keystore.password`   |   |Access password for JKS (certificate storage) package, mentioned above.|
-|`-Drp.launch`  |   |Name of test run in ReportPortal. Example with Jenkins variables: `$JOB_NAME in $env against ${browser.name}`.|
-|`-Drp.description` |   |Description of test run in ReportPortal. Example with Jenkins variables: `Jenkins $JOB_NAME #$BUILD_NUMBER in $env against ${browser.name} ($branch)`.|
-|`-Drp.tags`|   |Set of tags separated by `;` with any additional meta data for current test run in ReportPortal. Example with Jenkins variables: `Jenkins; Saucelabs; #$BUILD_NUMBER; $env; $branch; ${surefire.suiteXmlFiles}; ${browser.name}`.|
-|`-Drp.convertimage`|`false`|Boolean. Set `true` to convert colored log images to grayscale for reducing image size.|
-|`-Drp.mode`|`DEFAULT`  |Supported values: `DEFAULT`, `DEBUG`. With `DEBUG` a run will not be available in ReportPortal for users with **Customer** role.|
-|`-Drp.skipped.issue`   |`false`|Boolean. With `true` skipped tests are considered as issues and marked as **To investigate**.|
-|`-Drp.batch.size.logs` |`10`   |In order to rise up performance and reduce number of requests to server.|
-|`-Drp.group_by_folder` |`false`|Set `true` to represent folders with features as nested suites in ReportPortal.|
+|`surefire.suiteXmlFiles`   |           |Path for TestNG test suite XML file to execute.|
+|`webdriver.chrome.driver`  |           |Path for your local chromedriver.exe. Required to run tests in your local Chrome.|
+|`webdriver.gecko.driver`   |           |Path for your local geckodriver.exe. Required to run tests in your local Firefox.|
+|`webdriver.edge.driver`    |           |Path for your local MicrosoftWebDriver.exe. Required to run tests in your local Edge.|
+|`webdriver.ie.driver`      |           |Path for your local IEDriverServer.exe. Required to run tests in your local IE.|
+|`browser.name`             |`CHROME`   |Browser to run tests against. Supported ones: CHROME, FIREFOX, EDGE, IE, SAFARI.|
+|`browser.size`             |`1920x1080`|Size of browser window.|
+|`pageLoadTimeout`          |`60`       |Seconds to wait until any page to be loaded. Exceeding throws TimeoutException.|
+|`env`                      |`GOOGLE`   |Test environment to run tests in. There might be for example DEV, STAGE, PROD, etc environments in your project. For now there is only GOOGLE one for demo.|
+|`sauceCreds`               |           |To run tests in Saucelabs you will need to specify `<username>:<access_key>`.|
+|`sauceTunnel`              |           |To grant Saucelabs access to web resources in VPN you will need to specify `<tunnel_id>`.|
+|`rp.endpoint`              |           |To use ReportPortal you need to specify URL of ReportPortal web service, where requests should be send to.|
+|`rp.uuid`                  |           |Your ReportPortal UUID|
+|`rp.enable`                |           |Boolean. Enable/Disable logging to Report Portal.|
+|`rp.project`               |           |Project name in ReportPortal to identify scope.|
+|`rp.keystore.resource`     |           |Path for your `reportportal-client-v2.jks`.|
+|`rp.keystore.password`     |           |Access password for JKS (certificate storage) package, mentioned above.|
+|`rp.launch`                |           |Name of test run in ReportPortal. Example with Jenkins variables: `$JOB_NAME in $env against ${browser.name}`.|
+|`rp.description`           |           |Description of test run in ReportPortal. Example with Jenkins variables: `Jenkins $JOB_NAME #$BUILD_NUMBER in $env against ${browser.name} ($branch)`.|
+|`rp.tags`                  |           |Set of tags separated by `;` with any additional meta data for current test run in ReportPortal. Example with Jenkins variables: `Jenkins; Saucelabs; #$BUILD_NUMBER; $env; $branch; ${surefire.suiteXmlFiles}; ${browser.name}`.|
+|`rp.convertimage`          |`false`    |Boolean. Set `true` to convert colored log images to grayscale for reducing image size.|
+|`rp.mode`                  |`DEFAULT`  |Supported values: `DEFAULT`, `DEBUG`. With `DEBUG` a run will not be available in ReportPortal for users with **Customer** role.|
+|`rp.skipped.issue`         |`false`    |Boolean. With `true` skipped tests are considered as issues and marked as **To investigate**.|
+|`rp.batch.size.logs`       |`10`       |In order to rise up performance and reduce number of requests to server.|
+|`rp.group_by_folder`       |`false`    |Set `true` to represent folders with features as nested suites in ReportPortal.|
