@@ -26,9 +26,9 @@ mvn test
 
 ### Example of running demo test in your local
 
-1. Install [Google Chrome](https://www.google.com/chrome/).
-2. Download and unpack [ChromeDriver](http://chromedriver.chromium.org/) to C:\webdriver\chromedriver.exe.
-3. Execute:
+* Install [Google Chrome](https://www.google.com/chrome/).
+* Download and unpack [ChromeDriver](http://chromedriver.chromium.org/) to C:\webdriver\chromedriver.exe.
+* Execute:
 
 ```
 mvn test -Dwebdriver.chrome.driver=C:\webdriver\chromedriver.exe -Dsurefire.suiteXmlFiles=src/test/resources/demo.xml
@@ -38,7 +38,7 @@ mvn test -Dwebdriver.chrome.driver=C:\webdriver\chromedriver.exe -Dsurefire.suit
 
 | Parameter | Default | Description |
 |:---|---:|:---|
-|`-Dsurefire.suiteXmlFiles` |`src/test/resources/demo.xml`  |Path for TestNG test suite XML file to execute.|
+|`-Dsurefire.suiteXmlFiles` |   |Path for TestNG test suite XML file to execute.|
 |`-Dwebdriver.chrome.driver`|   |Path for your local chromedriver.exe. Required to run tests in your local Chrome.|
 |`-Dwebdriver.gecko.driver` |   |Path for your local geckodriver.exe. Required to run tests in your local Firefox.|
 |`-Dwebdriver.edge.driver`  |   |Path for your local MicrosoftWebDriver.exe. Required to run tests in your local Edge.|
@@ -59,7 +59,7 @@ mvn test -Dwebdriver.chrome.driver=C:\webdriver\chromedriver.exe -Dsurefire.suit
 |`-Drp.description` |   |Description of test run in ReportPortal. Example with Jenkins variables: `Jenkins $JOB_NAME #$BUILD_NUMBER in $env against ${browser.name} ($branch)`.|
 |`-Drp.tags`|   |Set of tags separated by `;` with any additional meta data for current test run in ReportPortal. Example with Jenkins variables: `Jenkins; Saucelabs; #$BUILD_NUMBER; $env; $branch; ${surefire.suiteXmlFiles}; ${browser.name}`.|
 |`-Drp.convertimage`|`false`|Boolean. Set `true` to convert colored log images to grayscale for reducing image size.|
-|`-Drp.mode`|`DEFAULT`  |Supported values: `DEFAULT`, `DEBUG`. With `DEBUG` a run will not be available in ReportPortal for users with *Customer* role.|
-|`-Drp.skipped.issue`   |`false`|Boolean. With `true` skipped tests are considered as issues and marked as *To investigate*.|
-|`-Drp.batch.size.logs` |10 |In order to rise up performance and reduce number of requests to server.|
+|`-Drp.mode`|`DEFAULT`  |Supported values: `DEFAULT`, `DEBUG`. With `DEBUG` a run will not be available in ReportPortal for users with **Customer** role.|
+|`-Drp.skipped.issue`   |`false`|Boolean. With `true` skipped tests are considered as issues and marked as **To investigate**.|
+|`-Drp.batch.size.logs` |`10`   |In order to rise up performance and reduce number of requests to server.|
 |`-Drp.group_by_folder` |`false`|Set `true` to represent folders with features as nested suites in ReportPortal.|
