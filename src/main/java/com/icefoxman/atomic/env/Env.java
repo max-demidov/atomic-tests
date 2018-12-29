@@ -1,5 +1,7 @@
 package com.icefoxman.atomic.env;
 
+import lombok.val;
+
 import java.util.Arrays;
 
 public enum Env {
@@ -12,7 +14,7 @@ public enum Env {
     }
 
     public static String pattern() {
-        String[] values = Arrays.stream(values()).map(Enum::name).toArray(String[]::new);
+        val values = Arrays.stream(values()).map(Enum::name).toArray(String[]::new);
         return String.format("^(%s)$", String.join("|", values));
     }
 

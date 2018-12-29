@@ -2,6 +2,7 @@ package com.icefoxman.atomic.param;
 
 import com.icefoxman.atomic.browser.Name;
 import com.icefoxman.atomic.env.Env;
+import lombok.val;
 
 public enum Param {
 
@@ -32,7 +33,7 @@ public enum Param {
 
     public void validate(String value) {
         if (!matches(value)) {
-            String msg = String.format("Value of param [%s=%s] must match pattern [%s]", type, value, pattern);
+            val msg = String.format("Value of param [%s=%s] must match pattern [%s]", type, value, pattern);
             throw new IllegalArgumentException(msg);
         }
     }
