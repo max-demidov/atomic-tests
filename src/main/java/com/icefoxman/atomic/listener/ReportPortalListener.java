@@ -3,6 +3,7 @@ package com.icefoxman.atomic.listener;
 import com.epam.reportportal.testng.BaseTestNGListener;
 import com.epam.reportportal.testng.ITestNGService;
 import com.epam.reportportal.testng.TestNGService;
+import lombok.val;
 import org.testng.ITestResult;
 import org.testng.internal.ConstructorOrMethod;
 import rp.com.google.common.base.Supplier;
@@ -35,11 +36,11 @@ public class ReportPortalListener extends BaseTestNGListener {
     }
 
     private synchronized void addParametersToDescription(ITestResult result) {
-        ConstructorOrMethod method = result.getMethod().getConstructorOrMethod();
+        val method = result.getMethod().getConstructorOrMethod();
         if (!descriptions.containsKey(method)) {
             descriptions.put(method, result.getMethod().getDescription());
         }
-        String description = String.format("%s%n%s",
+        val description = String.format("%s%n%s",
                 Optional.ofNullable(descriptions.get(method)).orElse(""),
                 Arrays.asList(result.getParameters()));
         result.getMethod().setDescription(description);

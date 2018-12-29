@@ -2,6 +2,7 @@ package com.icefoxman.atomic.browser;
 
 import com.icefoxman.atomic.param.Param;
 import com.icefoxman.atomic.param.Params;
+import lombok.val;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
@@ -19,7 +20,7 @@ import static org.openqa.selenium.remote.CapabilityType.UNEXPECTED_ALERT_BEHAVIO
 interface Options {
 
     static MutableCapabilities saucelabs() {
-        MutableCapabilities caps = new MutableCapabilities();
+        val caps = new MutableCapabilities();
         caps.setCapability("platform", "Windows 10");
         caps.setCapability("version", "latest");
         caps.setCapability("idleTimeout", 300);
@@ -29,7 +30,7 @@ interface Options {
     }
 
     static ChromeOptions chrome() {
-        ChromeOptions options = new ChromeOptions().addArguments(
+        val options = new ChromeOptions().addArguments(
                 "silent",
                 "test-type",
                 "disable-extensions",
@@ -40,14 +41,14 @@ interface Options {
     }
 
     static FirefoxOptions firefox() {
-        FirefoxOptions options = new FirefoxOptions();
+        val options = new FirefoxOptions();
         options.setCapability("marionette", true);
         options.setPageLoadStrategy(EAGER);
         return options.merge(common());
     }
 
     static EdgeOptions edge() {
-        EdgeOptions options = new EdgeOptions();
+        val options = new EdgeOptions();
         options.setCapability(IE_ENSURE_CLEAN_SESSION, true);
         options.setCapability(IGNORE_ZOOM_SETTING, true);
         options.setCapability(INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
@@ -57,7 +58,7 @@ interface Options {
     }
 
     static InternetExplorerOptions ie() {
-        InternetExplorerOptions options = new InternetExplorerOptions();
+        val options = new InternetExplorerOptions();
         options.setCapability(IE_ENSURE_CLEAN_SESSION, true);
         options.setCapability(IGNORE_ZOOM_SETTING, true);
         options.setCapability(INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
@@ -67,7 +68,7 @@ interface Options {
     }
 
     static SafariOptions safari() {
-        SafariOptions options = new SafariOptions();
+        val options = new SafariOptions();
         options.setCapability("seleniumVersion", "3.14.0_safarilegacy");
         options.setCapability("platform", "macOS 10.13");
         options.setCapability("screenResolution", "1920x1440");
@@ -75,7 +76,7 @@ interface Options {
     }
 
     static MutableCapabilities common() {
-        MutableCapabilities caps = new MutableCapabilities();
+        val caps = new MutableCapabilities();
         caps.setCapability(ENSURING_CLEAN_SESSION, true);
         caps.setCapability(HAS_NATIVE_EVENTS, false);
         caps.setCapability(UNEXPECTED_ALERT_BEHAVIOUR, DISMISS);

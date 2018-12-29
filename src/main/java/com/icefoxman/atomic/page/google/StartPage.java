@@ -15,7 +15,7 @@ public class StartPage extends AbstractPage {
 
     public SearchResultsPage search(String request) {
         log.info("Search [{}] @ {}", request, this.getClass().getSimpleName());
-        wait5s.until(elementToBeClickable(searchInput));
+        waiting().until(elementToBeClickable(searchInput));
         searchInput.sendKeys(request);
         searchInput.submit();
         return new SearchResultsPage();

@@ -31,7 +31,7 @@ mvn test
 * Execute:
 
 ```
-mvn test -Dwebdriver.chrome.driver=C:\webdriver\chromedriver.exe -Dsurefire.suiteXmlFiles=src/test/resources/demo.xml
+mvn test -Dwebdriver.chrome.driver=C:\webdriver\chromedriver.exe -Dsurefire.suiteXmlFiles=src/test/resources/suite/demo.xml
 ```
 
 ### Arguments
