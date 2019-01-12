@@ -25,6 +25,10 @@ public abstract class AbstractPage {
         PageFactory.initElements(factory, this);
     }
 
+    public void switchToMainFrame() {
+        Browser.driver().switchTo().defaultContent();
+    }
+
     protected void waitUntilReadyStateToBeComplete() {
         val timeout = Integer.parseInt(Params.get(Param.PAGE_LOAD_TIMEOUT));
         val js = "return document.readyState";
@@ -40,9 +44,5 @@ public abstract class AbstractPage {
 
     protected WebDriverWait waiting(int sec) {
         return Browser.waiting(sec);
-    }
-
-    protected void switchTo() {
-        Browser.driver().switchTo().defaultContent();
     }
 }

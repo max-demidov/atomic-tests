@@ -11,6 +11,7 @@ import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.safari.SafariOptions;
 
 import static org.openqa.selenium.PageLoadStrategy.EAGER;
+import static org.openqa.selenium.PageLoadStrategy.NONE;
 import static org.openqa.selenium.UnexpectedAlertBehaviour.DISMISS;
 import static org.openqa.selenium.ie.InternetExplorerDriver.*;
 import static org.openqa.selenium.remote.CapabilityType.ForSeleniumServer.ENSURING_CLEAN_SESSION;
@@ -64,6 +65,7 @@ interface Options {
         options.setCapability(INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
         options.setCapability(REQUIRE_WINDOW_FOCUS, true);
         options.setCapability(ENABLE_PERSISTENT_HOVERING, false);
+        options.setPageLoadStrategy(NONE);
         return options.merge(common());
     }
 

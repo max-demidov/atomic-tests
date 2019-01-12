@@ -134,6 +134,11 @@ public abstract class Browser {
         return (driver() == null ? null : ((RemoteWebDriver) driver()).getSessionId());
     }
 
+    public static void back() {
+        log.info("Navigate back to the previous page");
+        driver().navigate().back();
+    }
+
     private static WebDriver startLocal() {
         val msg = "Start local {} with {}";
         switch (name()) {
@@ -162,7 +167,7 @@ public abstract class Browser {
         }
     }
 
-    public static RemoteWebDriver startRemote(String testName) {
+    private static RemoteWebDriver startRemote(String testName) {
         val url = buildSaucelabsUrl();
         var caps = Options.saucelabs();
         switch (name()) {
