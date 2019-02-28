@@ -1,18 +1,13 @@
 package com.icefoxman.atomic.listener;
 
-import static org.testng.ITestResult.FAILURE;
-
 import com.icefoxman.atomic.browser.Browser;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.testng.IInvokedMethod;
 import org.testng.IInvokedMethodListener;
 import org.testng.ITestResult;
 
 @Slf4j
-public class ScreenshotListener implements IInvokedMethodListener {
-
-    private static final String SCREENSHOT_MESSAGE = "Screenshot has been taken";
+public class SaucelabsListener implements IInvokedMethodListener {
 
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
@@ -21,12 +16,8 @@ public class ScreenshotListener implements IInvokedMethodListener {
 
     @Override
     public void afterInvocation(IInvokedMethod method, ITestResult testResult) {
-        if (testResult.getStatus() != FAILURE) {
-            return;
-        }
-        val screenshotFile = Browser.takeScreenshot();
-        if (screenshotFile != null) {
-            log.info("RP_MESSAGE#FILE#{}#{}", screenshotFile, SCREENSHOT_MESSAGE);
+        if (testResult.getStatus() == ITestResult.FAILURE && Browser.isRemote() && Browser.sessionId() != null) {
+            log.debug("Saucelabs session: https://saucelabs.com/jobs/{}", Browser.sessionId());
         }
     }
 }

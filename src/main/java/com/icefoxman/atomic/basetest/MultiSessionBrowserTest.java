@@ -1,6 +1,8 @@
-package com.icefoxman.atomic.test;
+package com.icefoxman.atomic.basetest;
 
 import com.icefoxman.atomic.browser.Browser;
+import com.icefoxman.atomic.listener.HttpListener;
+import com.icefoxman.atomic.listener.SaucelabsListener;
 import com.icefoxman.atomic.listener.ScreenshotListener;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.AfterMethod;
@@ -10,7 +12,7 @@ import org.testng.annotations.Listeners;
 import java.lang.reflect.Method;
 
 @Slf4j
-@Listeners(ScreenshotListener.class)
+@Listeners({ScreenshotListener.class, SaucelabsListener.class, HttpListener.class})
 public abstract class MultiSessionBrowserTest extends AbstractTest {
 
     @BeforeMethod(description = "Open browser")
@@ -18,12 +20,14 @@ public abstract class MultiSessionBrowserTest extends AbstractTest {
         Browser.start(this.getClass().getSimpleName() + "." + method.getName() + "()");
     }
 
-    @BeforeMethod(description = "Open start page", dependsOnMethods = "openBrowser")
+    @BeforeMethod(description = "Open start page",
+        dependsOnMethods = "openBrowser")
     protected void openStartPage() {
-        Browser.open(ENV.url());
+        Browser.open(ENV.getStartUrl());
     }
 
-    @AfterMethod(description = "Close browser", alwaysRun = true)
+    @AfterMethod(description = "Close browser",
+        alwaysRun = true)
     protected void closeBrowser() {
         Browser.quit();
     }

@@ -8,7 +8,9 @@ public enum Param {
 
     BROWSER_NAME("browser.name", "CHROME", Name.pattern()),
     BROWSER_SIZE("browser.size", "1920x1080", "^\\d+x\\d+$"),
+    BROWSER_DEVICE("browser.device", "", "^.*$"),
     PAGE_LOAD_TIMEOUT("pageLoadTimeout", "60", "^\\d+$"),
+    DEFAULT_WAIT_TIMEOUT("defaultWaitTimeout", "30", "^\\d+$"),
     ENV("env", "GOOGLE", Env.pattern()),
     SAUCE_CREDS("sauceCreds", null, "^.+:.+S"),
     SAUCE_TUNNEL("sauceTunnel", "", "^.+$");

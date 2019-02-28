@@ -13,29 +13,21 @@ import java.util.function.Supplier;
 
 public abstract class AbstractPage {
 
-    private final static int DEFAULT_WAIT_TIMEOUT = 10;
+    private static final int DEFAULT_WAIT_TIMEOUT = Integer.parseInt(Params.get(Param.DEFAULT_WAIT_TIMEOUT));
 
-    public AbstractPage() {
-        initElements();
-    }
-
-    public void initElements() {
-        waitUntilReadyStateToBeComplete();
+    protected void initElements() {
         val factory = new AjaxElementLocatorFactory(Browser.driver(), 0);
         PageFactory.initElements(factory, this);
     }
 
-    public void switchToMainFrame() {
-        Browser.driver().switchTo().defaultContent();
-    }
-
     protected void waitUntilReadyStateToBeComplete() {
+        Browser.switchToMainFrame();
         val timeout = Integer.parseInt(Params.get(Param.PAGE_LOAD_TIMEOUT));
         val js = "return document.readyState";
         Supplier<String> msg = () ->
-                String.format("Page [%s] got stuck in loading state", Browser.driver().getCurrentUrl());
+            String.format("Page [%s] got stuck in loading state", Browser.driver().getCurrentUrl());
         Browser.waiting(timeout).withMessage(msg)
-                .until((ExpectedCondition<Boolean>) c -> "complete".equals(Browser.execute(js)));
+            .until((ExpectedCondition<Boolean>) c -> "complete".equals(Browser.execute(js)));
     }
 
     protected WebDriverWait waiting() {

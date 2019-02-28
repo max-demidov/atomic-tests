@@ -1,5 +1,19 @@
 package com.icefoxman.atomic.browser;
 
+import static org.openqa.selenium.PageLoadStrategy.EAGER;
+import static org.openqa.selenium.PageLoadStrategy.NONE;
+import static org.openqa.selenium.UnexpectedAlertBehaviour.DISMISS;
+import static org.openqa.selenium.ie.InternetExplorerDriver.ENABLE_PERSISTENT_HOVERING;
+import static org.openqa.selenium.ie.InternetExplorerDriver.IE_ENSURE_CLEAN_SESSION;
+import static org.openqa.selenium.ie.InternetExplorerDriver.IGNORE_ZOOM_SETTING;
+import static org.openqa.selenium.ie.InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS;
+import static org.openqa.selenium.ie.InternetExplorerDriver.REQUIRE_WINDOW_FOCUS;
+import static org.openqa.selenium.logging.LogType.PERFORMANCE;
+import static org.openqa.selenium.remote.CapabilityType.ForSeleniumServer.ENSURING_CLEAN_SESSION;
+import static org.openqa.selenium.remote.CapabilityType.HAS_NATIVE_EVENTS;
+import static org.openqa.selenium.remote.CapabilityType.LOGGING_PREFS;
+import static org.openqa.selenium.remote.CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR;
+
 import com.icefoxman.atomic.param.Param;
 import com.icefoxman.atomic.param.Params;
 import lombok.val;
@@ -8,15 +22,11 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerOptions;
+import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.safari.SafariOptions;
 
-import static org.openqa.selenium.PageLoadStrategy.EAGER;
-import static org.openqa.selenium.PageLoadStrategy.NONE;
-import static org.openqa.selenium.UnexpectedAlertBehaviour.DISMISS;
-import static org.openqa.selenium.ie.InternetExplorerDriver.*;
-import static org.openqa.selenium.remote.CapabilityType.ForSeleniumServer.ENSURING_CLEAN_SESSION;
-import static org.openqa.selenium.remote.CapabilityType.HAS_NATIVE_EVENTS;
-import static org.openqa.selenium.remote.CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR;
+import java.util.HashMap;
+import java.util.logging.Level;
 
 interface Options {
 
@@ -32,12 +42,24 @@ interface Options {
 
     static ChromeOptions chrome() {
         val options = new ChromeOptions().addArguments(
-                "silent",
-                "test-type",
-                "disable-extensions",
-                "disable-infobars",
-                "disable-plugins",
-                "disable-print-preview");
+            "silent",
+            "test-type",
+            "disable-extensions",
+            "disable-infobars",
+            "disable-plugins",
+            "disable-print-preview");
+
+        val logPrefs = new LoggingPreferences();
+        logPrefs.enable(PERFORMANCE, Level.INFO);
+        options.setCapability(LOGGING_PREFS, logPrefs);
+
+        val device = Params.get(Param.BROWSER_DEVICE).replace("_", " ");
+        if (!device.isEmpty()) {
+            val mobileEmulation = new HashMap<String, String>();
+            mobileEmulation.put("deviceName", device);
+            options.setExperimentalOption("mobileEmulation", mobileEmulation);
+        }
+
         return options.merge(common());
     }
 

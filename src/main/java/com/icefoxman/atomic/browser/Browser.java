@@ -1,17 +1,27 @@
 package com.icefoxman.atomic.browser;
 
+import static com.icefoxman.atomic.browser.Name.CHROME;
+import static com.icefoxman.atomic.browser.Name.FIREFOX;
+import static org.openqa.selenium.logging.LogType.PERFORMANCE;
+
 import com.icefoxman.atomic.param.Param;
 import com.icefoxman.atomic.param.Params;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import lombok.var;
-import org.openqa.selenium.*;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.io.FileHandler;
+import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;
 import org.openqa.selenium.safari.SafariDriver;
@@ -23,6 +33,8 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -47,21 +59,24 @@ public abstract class Browser {
         return driver.get();
     }
 
+    /**
+     * Starts {@link Param#BROWSER_NAME} browser.
+     *
+     * @param testName is a name of test for Saucelabs
+     */
     public static void start(String testName) {
         val browserName = Params.get(Param.BROWSER_NAME);
         log.info("Open {} browser for {}", browserName, testName);
         name = Name.valueOf(browserName);
         val webDriver = isRemote() ? startRemote(testName) : startLocal();
-
-        if (name != Name.FIREFOX) { // there is a bug in FirefoxDriver
-            val timeout = Integer.parseInt(Params.get(Param.PAGE_LOAD_TIMEOUT));
-            webDriver.manage().timeouts().pageLoadTimeout(timeout, TimeUnit.SECONDS);
-        }
-
         driver.set(webDriver);
+        updateTimeouts();
         resize(Params.get(Param.BROWSER_SIZE));
     }
 
+    /**
+     * Quits browser if open.
+     */
     public static void quit() {
         if (driver() == null) {
             return;
@@ -76,12 +91,23 @@ public abstract class Browser {
         driver().get(url);
     }
 
+    public static void jsClick(WebElement element) {
+        execute("arguments[0].click();", element);
+    }
+
+    /**
+     * Executes JavaScript with arguments in browser.
+     *
+     * @param js   - JavaScript code
+     * @param args - Javascript arguments
+     * @return Object that JavaScript returns
+     */
     public static Object execute(String js, Object... args) {
         val executor = (JavascriptExecutor) driver();
         try {
             return executor.executeScript(js, args);
         } catch (Exception e) {
-            log.error("Failed to execute JS:\n{}", e.getMessage());
+            log.error("Failed to execute JS", e);
             return null;
         }
     }
@@ -98,6 +124,11 @@ public abstract class Browser {
         return (Params.get(Param.SAUCE_CREDS) != null);
     }
 
+    /**
+     * Changes size of browser window.
+     *
+     * @param browserSize must match pattern <code>^\\d+x\\d+$</code>, e.g. 1920x1080
+     */
     public static void resize(String browserSize) {
         log.debug("Change size of browser window to [{}]", browserSize);
         Param.BROWSER_SIZE.validate(browserSize);
@@ -108,6 +139,11 @@ public abstract class Browser {
         driver().manage().window().setSize(dimension);
     }
 
+    /**
+     * Takes screenshot of a web page open in a browser.
+     *
+     * @return File of screenshot
+     */
     public static File takeScreenshot() {
         if (driver() == null) {
             log.debug("Unable to take a screenshot when browser is not open");
@@ -139,12 +175,17 @@ public abstract class Browser {
         driver().navigate().back();
     }
 
+    public static void switchToMainFrame() {
+        log.trace("Switch to main frame");
+        driver().switchTo().defaultContent();
+    }
+
     private static WebDriver startLocal() {
         val msg = "Start local {} with {}";
         switch (name()) {
             case CHROME:
                 val chromeOptions = Options.chrome();
-                log.debug(msg, name(), chromeOptions);
+                log.debug(msg, name() + printMobileDevice(), chromeOptions);
                 return new ChromeDriver(chromeOptions);
             case FIREFOX:
                 val firefoxOptions = Options.firefox();
@@ -168,7 +209,6 @@ public abstract class Browser {
     }
 
     private static RemoteWebDriver startRemote(String testName) {
-        val url = buildSaucelabsUrl();
         var caps = Options.saucelabs();
         switch (name()) {
             case CHROME:
@@ -193,7 +233,8 @@ public abstract class Browser {
         if (testName != null) {
             caps.setCapability("name", testName);
         }
-        log.debug("Start remote {} with {}", name(), caps);
+        log.debug("Start remote {}{} with {}", name(), printMobileDevice(), caps);
+        val url = buildSaucelabsUrl();
         val remote = new RemoteWebDriver(url, caps);
         log.debug("Saucelabs session: https://saucelabs.com/jobs/{}", remote.getSessionId());
         return remote;
@@ -207,5 +248,39 @@ public abstract class Browser {
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("Invalid Saucelabs URL " + url, e);
         }
+    }
+
+    private static void updateTimeouts() {
+        if (name() == FIREFOX) {
+            return; // there is a bug with setting timeouts in FirefoxDriver
+        }
+        val timeout = Integer.parseInt(Params.get(Param.PAGE_LOAD_TIMEOUT));
+        val timeouts = driver().manage().timeouts();
+        timeouts.pageLoadTimeout(timeout, TimeUnit.SECONDS);
+        timeouts.setScriptTimeout(timeout, TimeUnit.SECONDS);
+        timeouts.implicitlyWait(0, TimeUnit.SECONDS);
+    }
+
+    /**
+     * Provides performance logs of Chrome browser.
+     *
+     * @return List of log entries for Chrome or empty list for other browsers
+     */
+    public static List<LogEntry> getPerformanceLogs() {
+        if (name() == CHROME && driver() != null) {
+            return driver().manage().logs().get(PERFORMANCE).getAll();
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+    public static boolean isMobile() {
+        val device = Params.get(Param.BROWSER_DEVICE);
+        return (name() == CHROME && !device.isEmpty());
+    }
+
+    private static String printMobileDevice() {
+        val device = Params.get(Param.BROWSER_DEVICE).replace("_", " ");
+        return isMobile() ? String.format(" (%s emulation)", device) : "";
     }
 }

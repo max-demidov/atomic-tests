@@ -10,7 +10,11 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class ExcelReader {
@@ -21,6 +25,12 @@ public class ExcelReader {
     private List<String> header = new ArrayList<>();
     private List<List<String>> rows = new ArrayList<>();
 
+    /**
+     * Excel reader provides an access point to data in a sheet in a workbook.
+     *
+     * @param fileName  - is a full path to Excel file
+     * @param sheetName - is a name of sheet in a workbook
+     */
     public ExcelReader(String fileName, String sheetName) {
         log.debug("Read data from [{}] sheet of file [{}]", sheetName, fileName);
         Workbook workbook;
@@ -39,6 +49,11 @@ public class ExcelReader {
         }
     }
 
+    /**
+     * Provides data parsed from Excel file.
+     *
+     * @return List of rows where row is a Map where key is a column name and value is cell data
+     */
     public List<Map<String, String>> data() {
         val header = header();
         val rows = rows();

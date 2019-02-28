@@ -35,14 +35,14 @@ public class ReportPortalListener extends BaseTestNGListener {
         super.onTestStart(testResult);
     }
 
-    private synchronized void addParametersToDescription(ITestResult result) {
-        val method = result.getMethod().getConstructorOrMethod();
+    private synchronized void addParametersToDescription(ITestResult testResult) {
+        val method = testResult.getMethod().getConstructorOrMethod();
         if (!descriptions.containsKey(method)) {
-            descriptions.put(method, result.getMethod().getDescription());
+            descriptions.put(method, testResult.getMethod().getDescription());
         }
         val description = String.format("%s%n%s",
-                Optional.ofNullable(descriptions.get(method)).orElse(""),
-                Arrays.asList(result.getParameters()));
-        result.getMethod().setDescription(description);
+                                        Optional.ofNullable(descriptions.get(method)).orElse(""),
+                                        Arrays.asList(testResult.getParameters()));
+        testResult.getMethod().setDescription(description);
     }
 }

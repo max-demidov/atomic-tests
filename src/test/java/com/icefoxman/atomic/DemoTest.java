@@ -1,15 +1,15 @@
 package com.icefoxman.atomic;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.everyItem;
+
+import com.icefoxman.atomic.basetest.SingleSessionBrowserTest;
 import com.icefoxman.atomic.page.google.StartPage;
-import com.icefoxman.atomic.test.SingleSessionBrowserTest;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.testng.annotations.Test;
 
 import java.util.stream.Collectors;
-
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.everyItem;
 
 @Slf4j
 public class DemoTest extends SingleSessionBrowserTest {
@@ -22,7 +22,7 @@ public class DemoTest extends SingleSessionBrowserTest {
         log.info("Check that every item in search results contains search request [{}]", request);
         resultsPage.printSearchResultHeaders();
         val results = resultsPage.getSearchResultHeaders()
-                .stream().map(String::toLowerCase).collect(Collectors.toList());
+            .stream().map(String::toLowerCase).collect(Collectors.toList());
         assertThat("Search results are irrelevant:", results, everyItem(containsString(request)));
     }
 }

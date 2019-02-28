@@ -9,6 +9,12 @@ public abstract class Params {
 
     private static final Map<Param, String> PARAMS = new EnumMap<>(Param.class);
 
+    /**
+     * Provides a text value of {@link Param} <code>param</code>.
+     *
+     * @param param name
+     * @return text value of <code>param</code>
+     */
     public static String get(Param param) {
         if (!PARAMS.containsKey(param)) {
             val value = System.getProperty(param.type(), param.defaultValue());

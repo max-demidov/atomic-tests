@@ -11,10 +11,15 @@ import org.apache.commons.collections.CollectionUtils;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class CsvReader {
+
     private static final char SEPARATOR = '\t';
     private static final CSVParser PARSER = new CSVParserBuilder().withSeparator(SEPARATOR).build();
 
@@ -26,6 +31,11 @@ public class CsvReader {
         this.filename = filename;
     }
 
+    /**
+     * Provides data parsed from CSV file.
+     *
+     * @return List of rows where row is a Map where key is a column name and value is column data
+     */
     public List<Map<String, String>> data() {
         log.debug("Read data from [{}] file", filename);
         String[] header;
@@ -44,7 +54,7 @@ public class CsvReader {
 
         if (rows.get(0).length != header.length) {
             val msg = String.format("Number of headers [%d] != [%d] Number of data columns",
-                    header.length, rows.get(0).length);
+                                    header.length, rows.get(0).length);
             throw new IllegalArgumentException(msg);
         }
 
@@ -78,17 +88,17 @@ public class CsvReader {
     private String[] readHeader() throws IOException {
         @Cleanup
         val reader = new CSVReaderBuilder(new FileReader(filename))
-                .withCSVParser(PARSER)
-                .build();
+            .withCSVParser(PARSER)
+            .build();
         return reader.readNext();
     }
 
     private List<String[]> readRows() throws IOException {
         @Cleanup
         val reader = new CSVReaderBuilder(new FileReader(filename))
-                .withCSVParser(PARSER)
-                .withSkipLines(1)
-                .build();
+            .withCSVParser(PARSER)
+            .withSkipLines(1)
+            .build();
         return reader.readAll();
     }
 }

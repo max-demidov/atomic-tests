@@ -15,11 +15,17 @@
     </appender>
 
     <logger name="rp">
-        <level value="TRACE"/>
+        <level value="FATAL"/>
+    </logger>
+    <logger name="com.epam.reportportal">
+        <level value="FATAL"/>
+    </logger>
+    <logger name="org.apache.http">
+        <level value="WARN"/>
     </logger>
 
     <root>
-        <priority value="DEBUG"/>
+        <priority value="trace"/>
         <appender-ref ref="console"/>
         <appender-ref ref="rp"/>
     </root>
