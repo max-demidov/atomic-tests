@@ -47,7 +47,9 @@ mvn test -Dwebdriver.chrome.driver=C:\webdriver\chromedriver.exe -Dsurefire.suit
 |`webdriver.ie.driver`      |           |Path for your local IEDriverServer.exe. Required to run tests in your local IE.|
 |`browser.name`             |`CHROME`   |Browser to run tests against. Supported ones: CHROME, FIREFOX, EDGE, IE, SAFARI.|
 |`browser.size`             |`1920x1080`|Size of browser window.|
+|`browser.device`           |           |Enables mobile device emulation mode in Chrome if specified. Not applicable for other browsers. Examples: `Pixel 2`, `iPhone X`.|
 |`pageLoadTimeout`          |`60`       |Seconds to wait until any page to be loaded. Exceeding throws TimeoutException.|
+|`defaultWaitTimeout`       |`30`       |Default timeout in seconds for `WebDriverWait` conditions. Exceeding throws TimeoutException.|
 |`env`                      |`GOOGLE`   |Test environment to run tests in. There might be for example DEV, STAGE, PROD, etc environments in your project. For now there is only GOOGLE one for demo.|
 |`sauceCreds`               |           |To run tests in Saucelabs you will need to specify `<username>:<access_key>`.|
 |`sauceTunnel`              |           |To grant Saucelabs access to web resources in VPN you will need to specify `<tunnel_id>`.|
