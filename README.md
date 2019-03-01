@@ -51,6 +51,7 @@ mvn test -Dwebdriver.chrome.driver=C:\webdriver\chromedriver.exe -Dsurefire.suit
 |`pageLoadTimeout`          |`60`       |Seconds to wait until any page to be loaded. Exceeding throws TimeoutException.|
 |`defaultWaitTimeout`       |`30`       |Default timeout in seconds for `WebDriverWait` conditions. Exceeding throws TimeoutException.|
 |`env`                      |`GOOGLE`   |Test environment to run tests in. There might be for example DEV, STAGE, PROD, etc environments in your project. For now there is only GOOGLE one for demo.|
+|`log.level`                |`TRACE`    |Root log level. Supported values: `OFF`, `FATAL`, `ERROR`, `WARN`, `INFO`, `DEBUG`, `TRACE`, `ALL`.|
 |`sauceCreds`               |           |To run tests in Saucelabs you will need to specify `<username>:<access_key>`.|
 |`sauceTunnel`              |           |To grant Saucelabs access to web resources in VPN you will need to specify `<tunnel_id>`.|
 |`rp.endpoint`              |           |To use ReportPortal you need to specify URL of ReportPortal web service, where requests should be send to.|
