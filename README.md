@@ -1,4 +1,4 @@
-# Atomic 🦊 Tests
+# Atomic Tests
 
 Base Java test framework for fast, scalable and atomic tests
 
@@ -10,6 +10,7 @@ Base Java test framework for fast, scalable and atomic tests
 * [Project Lombok](https://projectlombok.org/) - Library that spicing up Java syntax
 * [ReportPortal](http://reportportal.io/) - Test automation analytics platform and real-time reporting
 * [Sauce Labs](https://saucelabs.com/) - Cross Browser Testing cloud
+* [Html Elements](https://github.com/yandex-qatools/htmlelements) - Extension of WebDriver Page Object
 
 ## Installing
 
@@ -21,17 +22,17 @@ cd atomic-tests/
 ## Running
 
 ```
-mvn test
+mvn test -pl core,example
 ```
 
-### Example of running demo test in your local
+### Example of running demo test on your laptop
 
 * Install [Google Chrome](https://www.google.com/chrome/).
 * Download and unpack [ChromeDriver](http://chromedriver.chromium.org/) to C:\webdriver\chromedriver.exe.
 * Execute:
 
 ```
-mvn test -Dwebdriver.chrome.driver=C:\webdriver\chromedriver.exe -Dsurefire.suiteXmlFiles=src/test/resources/suite/demo.xml
+mvn test -pl core,example -Denv=GOOGLE -Dwebdriver.chrome.driver=C:\webdriver\chromedriver.exe -Dsurefire.suiteXmlFiles=src/test/resources/suite/demo.xml
 ```
 
 ### Arguments
@@ -40,7 +41,7 @@ mvn test -Dwebdriver.chrome.driver=C:\webdriver\chromedriver.exe -Dsurefire.suit
 
 | Parameter | Default | Description |
 |:---|---:|:---|
-|`surefire.suiteXmlFiles`   |           |Path for TestNG test suite XML file to execute.|
+|`surefire.suiteXmlFiles`   |           |Path for TestNG test suite XML file to execute. **Mandatory**.|
 |`webdriver.chrome.driver`  |           |Path for your local chromedriver.exe. Required to run tests in your local Chrome.|
 |`webdriver.gecko.driver`   |           |Path for your local geckodriver.exe. Required to run tests in your local Firefox.|
 |`webdriver.edge.driver`    |           |Path for your local MicrosoftWebDriver.exe. Required to run tests in your local Edge.|
@@ -50,7 +51,7 @@ mvn test -Dwebdriver.chrome.driver=C:\webdriver\chromedriver.exe -Dsurefire.suit
 |`browser.device`           |           |Enables mobile device emulation mode in Chrome if specified. Not applicable for other browsers. Examples: `Pixel 2`, `iPhone X`.|
 |`pageLoadTimeout`          |`60`       |Seconds to wait until any page to be loaded. Exceeding throws TimeoutException.|
 |`defaultWaitTimeout`       |`30`       |Default timeout in seconds for `WebDriverWait` conditions. Exceeding throws TimeoutException.|
-|`env`                      |`GOOGLE`   |Test environment to run tests in. There might be for example DEV, STAGE, PROD, etc environments in your project. For now there is only GOOGLE one for demo.|
+|`env`                      |           |Test environment to run tests in. There might be for example DEV, STAGE, PROD environments in your project. GOOGLE is available for demo.|
 |`log.level`                |`TRACE`    |Root log level. Supported values: `OFF`, `FATAL`, `ERROR`, `WARN`, `INFO`, `DEBUG`, `TRACE`, `ALL`.|
 |`sauceCreds`               |           |To run tests in Saucelabs you will need to specify `<username>:<access_key>`.|
 |`sauceTunnel`              |           |To grant Saucelabs access to web resources in VPN you will need to specify `<tunnel_id>`.|
